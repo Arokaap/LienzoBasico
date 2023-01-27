@@ -54,6 +54,29 @@ export function seleccionarPincel(pincel) {
   });
 }
 
+export function pintar(celdas) {
+  let estadoPincel = false;
+  const $parrafoEstado = d.getElementById("pincel");
+
+  d.addEventListener("click", (e) => {
+    $celdas = d.querySelectorAll(celdas);
+    if (
+      e.target.matches(".tablerodibujo *") ||
+      e.target.matches(".tablerodibujo")
+    ) {
+      if (!estadoPincel) {
+        d.addEventListener("mouseover", mouseOverFunction);
+        $parrafoEstado.textContent = `El pincel está ACTIVADO`;
+        estadoPincel = true;
+      } else {
+        d.removeEventListener("mouseover", mouseOverFunction);
+        $parrafoEstado.textContent = `El pincel está DESACTIVADO`;
+        estadoPincel = false;
+      }
+    }
+  });
+}
+
 function cambiarColorSeleccionado() {
   const $colores = d.querySelectorAll(".seleccionado");
 
@@ -64,25 +87,7 @@ function cambiarColorSeleccionado() {
   }
 }
 
-export function pintar(celdas) {
-  let estadoPincel = false;
-
-  d.addEventListener("click", (e) => {
-    $celdas = d.querySelectorAll(celdas);
-    if (e.target.matches(".tablerodibujo *")) {
-      if (!estadoPincel) {
-        d.addEventListener("mouseover", mouseOverFunction);
-
-        estadoPincel = true;
-      } else {
-        d.removeEventListener("mouseover", mouseOverFunction);
-
-        estadoPincel = false;
-      }
-    }
-  });
-}
-
+//Funcion flecha con la que pinto en el lienzo (Esta se usará en el evento mouseover)
 let mouseOverFunction = (e) => {
   $celdas.forEach(($item) => {
     if (e.target == $item) {
