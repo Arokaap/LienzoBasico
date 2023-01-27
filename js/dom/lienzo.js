@@ -1,4 +1,7 @@
 const d = document;
+let colorSeleccionado;
+
+let $celdas;
 
 export function generarTabla(div) {
   const $tabla = d.createElement("table");
@@ -15,46 +18,38 @@ export function generarTabla(div) {
 
   const $div = d.getElementById(div);
   $div.appendChild($tabla);
-  console.log($div);
 }
 
-export function seleccionarPincel() {
+export function seleccionarPincel(pincel) {
   d.addEventListener("click", (e) => {
-    const $color1 = d.querySelector(".color1"),
-      $color2 = d.querySelector(".color2"),
-      $color3 = d.querySelector(".color3"),
-      $color4 = d.querySelector(".color4"),
-      $color5 = d.querySelector(".color5"),
-      $color6 = d.querySelector(".color6");
+    for (let i = 1; i <= 6; i++) {
+      //Selecciono aquel donde el color coincida con el click
+      if (e.target.matches(`.color${i}`)) {
+        const $color = d.querySelector(`.color${i}`),
+          $pincel = d.getElementById(pincel);
+        cambiarColorSeleccionado();
+        $color.classList.add("seleccionado");
 
-    if (e.target == $color1) {
-      cambiarColorSeleccionado();
-      $color1.classList.add("seleccionado");
-    }
+        //Doy el color al pincel para hacer más visual el programa
 
-    if (e.target == $color2) {
-      cambiarColorSeleccionado();
-      $color2.classList.add("seleccionado");
-    }
+        colorSeleccionado = window
+          .getComputedStyle($color)
+          .getPropertyValue("background-color");
 
-    if (e.target == $color3) {
-      cambiarColorSeleccionado();
-      $color3.classList.add("seleccionado");
-    }
+        $pincel.style.backgroundColor = window
+          .getComputedStyle($color)
+          .getPropertyValue("background-color");
 
-    if (e.target == $color4) {
-      cambiarColorSeleccionado();
-      $color4.classList.add("seleccionado");
-    }
-
-    if (e.target == $color5) {
-      cambiarColorSeleccionado();
-      $color5.classList.add("seleccionado");
-    }
-
-    if (e.target == $color6) {
-      cambiarColorSeleccionado();
-      $color6.classList.add("seleccionado");
+        if (
+          window
+            .getComputedStyle($color)
+            .getPropertyValue("background-color") == "rgb(0, 0, 0)"
+        ) {
+          $pincel.style.color = "white";
+        } else {
+          $pincel.style.color = "rgb(0, 0, 0)";
+        }
+      }
     }
   });
 }
@@ -68,3 +63,30 @@ function cambiarColorSeleccionado() {
     }
   }
 }
+
+export function pintar(celdas) {
+  let estadoPincel = false;
+
+  d.addEventListener("click", (e) => {
+    $celdas = d.querySelectorAll(celdas);
+    if (e.target.matches(".tablerodibujo *")) {
+      if (!estadoPincel) {
+        d.addEventListener("mouseover", mouseOverFunction);
+
+        estadoPincel = true;
+      } else {
+        d.removeEventListener("mouseover", mouseOverFunction);
+
+        estadoPincel = false;
+      }
+    }
+  });
+}
+
+let mouseOverFunction = (e) => {
+  $celdas.forEach(($item) => {
+    if (e.target == $item) {
+      $item.style.backgroundColor = colorSeleccionado;
+    }
+  });
+};
