@@ -3,6 +3,7 @@ let colorSeleccionado;
 
 let $celdas;
 
+//Metodo con el que genero la tabla
 export function generarTabla(div) {
   const $tabla = d.createElement("table");
   $tabla.classList.add("tablerodibujo");
@@ -20,6 +21,7 @@ export function generarTabla(div) {
   $div.appendChild($tabla);
 }
 
+//Metodo mediante el cual selecciono el color
 export function seleccionarPincel(pincel) {
   d.addEventListener("click", (e) => {
     for (let i = 1; i <= 6; i++) {
@@ -54,6 +56,7 @@ export function seleccionarPincel(pincel) {
   });
 }
 
+//Metodo mediante el cual pinto las celdas sobre las que pasa el raton
 export function pintar(celdas) {
   let estadoPincel = false;
   const $parrafoEstado = d.getElementById("pincel");
@@ -77,6 +80,7 @@ export function pintar(celdas) {
   });
 }
 
+//Metodo mediante el que cambio le quito el color seleccionado para luego aniadirselo al nuevo color
 function cambiarColorSeleccionado() {
   const $colores = d.querySelectorAll(".seleccionado");
 

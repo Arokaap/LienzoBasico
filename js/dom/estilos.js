@@ -15,6 +15,7 @@ export default function estiloContenedor(contenedor) {
   $parrafos[1].textContent = `Haga CLICK en cualquier celda para activar/desactivar el Pincel`;
 }
 
+//Damos estilos a la tabla para que cada td tenga un borde negro
 export function estiloTabla() {
   const $tabla = d.querySelectorAll(`.tablerodibujo td`);
   $tabla.forEach((item) => {
